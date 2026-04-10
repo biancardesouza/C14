@@ -43,7 +43,7 @@ jobs:
           name: coverage-report
           path: htmlcov/
 
-build:
+  build:
     runs-on: ubuntu-latest
 
     steps:
