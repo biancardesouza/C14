@@ -27,10 +27,67 @@ jobs:
         run: |
           PYTHONPATH=. python -m pytest \
           --html=report.html \
-          --self-contained-html
+          --self-contained-html \
+          --cov=app \
+          --cov-report=html
 
-      - name: Upload test report
+      - name: Upload relatório de teste
         uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: report.html
+        
+      - name: Upload cobertura de testes
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: htmlcov/
+
+build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Gerar pacote
+        run: zip -r app.zip app requirements.txt README.md
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: app.zip
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [test, build]
+
+    steps:
+      - name: Download build
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+
+      - name: Criar release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.run_number }}
+          name: Release v${{ github.run_number }}
+          files: app.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: [deploy]
+
+    steps:
+      - name: Enviar e-mail de notificação
+        run: python scripts/notify.py
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
