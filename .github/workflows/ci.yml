@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout do código
         uses: actions/checkout@v3
 
       - name: Gerar pacote
@@ -86,6 +86,17 @@ jobs:
     needs: [deploy]
 
     steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+      
       - name: Enviar e-mail de notificação
         run: python scripts/notify.py
         env:
