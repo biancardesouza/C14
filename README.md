@@ -1,92 +1,183 @@
-# To-Do API
+# 🚀 To-Do API
 
-## 📌 Descrição
+## 📚 Sobre o Projeto
 
-Este projeto consiste em uma API REST simples para gerenciamento de tarefas, desenvolvida utilizando **FastAPI**. A aplicação permite criar, listar, atualizar, deletar e marcar tarefas como concluídas.
+Este projeto foi desenvolvido como parte da disciplina de Engenharia de Software, com o objetivo de implementar um pipeline completo de CI/CD utilizando GitHub Actions. A aplicação consiste em uma API desenvolvida em Python, com testes automatizados e integração contínua para garantir qualidade, organização e automação no processo de desenvolvimento.
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## 🎯 Objetivos
 
-* Python 3.x
+* Implementar testes automatizados
+* Automatizar build e deploy
+* Utilizar boas práticas de DevOps
+* Garantir qualidade de software com CI/CD
+
+---
+
+## ⚙️ Tecnologias Utilizadas
+
+* Python 3.11
+* Pytest
 * FastAPI
 * Uvicorn
+* GitHub Actions
 
 ---
 
-## 📂 Estrutura do Projeto
+## 📁 Estrutura do Projeto
 
 ```
-project/
-│
-├── app/
-│   ├── main.py             # Ponto de entrada da aplicação
-│   ├── models.py           # Modelos de dados
-│   ├── service.py          # Regras de negócio
-│   └── database.py         # Simulação de banco de dados em memória
-│
-├── requirements.txt
-└── .gitignore
+.
+├── app/                    # Código fonte da aplicação
+├── tests/                  # Testes automatizados
+├── scripts/                # Scripts auxiliares
+├── requirements.txt        # Dependências do projeto
+├── README.md               # Documentação
+├── LICENSE                 # Licença utilizada no projeto
+└── .github/workflows/      # Pipeline CI/CD
 ```
 
 ---
 
-## ⚙️ Funcionalidades
+## 🧪 Testes Automatizados
 
-A API oferece as seguintes operações:
+Os testes foram implementados utilizando Pytest e cobrem:
 
-* Criar uma tarefa
-* Listar todas as tarefas
-* Buscar uma tarefa por ID
-* Atualizar uma tarefa
-* Deletar uma tarefa
-* Marcar uma tarefa como concluída
+* ✅ Casos de uso principais (fluxo normal)
+* ❌ Casos de erro (fluxo de exceção)
 
----
+Total:
 
-## 🌐 Endpoints
+* 10 testes de fluxo normal
+* 10 testes de exceção
 
-| Método | Rota                   | Descrição                      |
-| ------ | ---------------------- | ------------------------------ |
-| GET    | `/`                    | Verifica se a API está rodando |
-| GET    | `/tasks`               | Lista todas as tarefas         |
-| POST   | `/tasks`               | Cria uma nova tarefa           |
-| GET    | `/tasks/{id}`          | Retorna uma tarefa específica  |
-| PUT    | `/tasks/{id}`          | Atualiza uma tarefa            |
-| DELETE | `/tasks/{id}`          | Remove uma tarefa              |
-| PATCH  | `/tasks/{id}/complete` | Marca como concluída           |
+### 📊 Relatórios gerados:
+
+* Relatório HTML dos testes
+* Relatório de cobertura de código
 
 ---
 
-## ▶️ Como Executar o Projeto
+## 🔄 Pipeline CI/CD
 
-### 1. Clone o repositório
+O pipeline foi implementado com GitHub Actions e é composto por 4 jobs:
 
-```bash
-git clone https://github.com/biancardesouza/C14
-cd C14
+### 🧪 1. Test
+
+* Instala dependências
+* Executa testes automatizados
+* Gera relatórios
+* Salva artifacts
+
+### 📦 2. Build
+
+* Instala dependências
+* Gera pacote `.zip` da aplicação
+* Armazena como artifact
+
+### 🚀 3. Deploy
+
+* Executado apenas após sucesso de test e build
+* Publica o artefato como release no GitHub
+
+### 📧 4. Notify
+
+* Executado após deploy
+* Envia e-mail de notificação
+* Utiliza variáveis de ambiente (secrets)
+
+---
+
+## 🔀 Execução do Pipeline
+
+O pipeline é acionado automaticamente em:
+
+* Push na branch `main`
+* Pull requests para `main`
+
+---
+
+## 📦 Gerenciamento de Dependências
+
+As dependências são gerenciadas via:
+
+```
+requirements.txt
 ```
 
-### 2. Instale as dependências
+E são instaladas automaticamente no pipeline com:
 
-```bash
+```
 pip install -r requirements.txt
 ```
 
-### 3. Execute a aplicação
+---
 
-```bash
-uvicorn app.main:app --reload
-```
+## 🔐 Variáveis de Ambiente
+
+As seguintes variáveis são utilizadas no pipeline:
+
+* SMTP_HOST
+* SMTP_PORT
+* EMAIL_USER
+* EMAIL_PASS
+* EMAIL_TO
+
+Todas são configuradas como **GitHub Secrets**, garantindo segurança.
 
 ---
 
-## 📖 Documentação interativa
+## 🚀 Deploy
 
-Após iniciar o servidor, acesse:
+O deploy consiste na publicação automática do build como release no GitHub.
+
+* Ele é executado somente após sucesso dos testes e build
+* Geração de versão baseada no número da execução
+
+---
+
+## 👥 Integrantes
+
+* Antonio Alexandre Barbosa da Silva
+* Bianca Ribeiro de Souza
+
+---
+
+## 🤖 Uso de Inteligência Artificial
+
+Este projeto utilizou ferramentas de IA como apoio para:
+
+* Estruturação do pipeline CI/CD
+* Revisão de boas práticas
+* Sugestões de melhoria
+
+Todos os resultados foram revisados e adaptados manualmente pelo grupo.
+
+---
+
+## 📌 Como Executar Localmente
+
+1. Clone o repositório, HTTPS ou SSH:
 
 ```
-http://127.0.0.1:8000/docs
+git clone <URL_DO_REPOSITORIO>
 ```
 
-A interface Swagger permite testar todos os endpoints diretamente pelo navegador.
+2. Instale as dependências:
+
+```
+pip install -r requirements.txt
+```
+
+3. Execute a aplicação:
+
+```
+python main.py
+```
+
+4. Execute os testes:
+
+```
+python -m pytest
+```
